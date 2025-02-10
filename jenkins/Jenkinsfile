@@ -22,9 +22,9 @@ node {
         input message: 'Lanjutkan ke tahap Deploy? (Klik "Proceed" untuk melanjutkan)'
     }
 
-    stage('Deploy to EC2') {
-        def ec2Ip = '18.218.217.151'  // Ganti dengan IP EC2-mu
-        def ec2User = 'admin'   // Sesuaikan dengan user EC2
+    stage('Deploy') {
+        def ec2Ip = '18.218.217.151'
+        def ec2User = 'admin'
         def appJar = "target/myapp.jar"
 
         withCredentials([file(credentialsId: 'my-ec2-key', variable: 'EC2_KEY')]) {
@@ -35,5 +35,6 @@ node {
             '''
         }
 
+        sleep 60s;
     }
 }
