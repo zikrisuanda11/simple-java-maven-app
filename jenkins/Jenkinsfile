@@ -15,4 +15,20 @@ node {
             sh './jenkins/scripts/deliver.sh'
         }
     }
+
+    stage('Manual Approval') {
+        input message: 'Lanjutkan ke tahap Deploy? (Klik "Proceed" untuk melanjutkan)'
+    }
+
+    stage('Deploy to EC2') {
+        def ec2Ip = '18.218.217.151'  // Ganti dengan IP EC2-mu
+        def ec2User = 'admin'   // Sesuaikan dengan user EC2
+        def appJar = "target/myapp.jar"
+
+        // Menggunakan credential ID untuk mengakses private key
+        withCredentials([file(credentialsId: 'my-ec2-key', variable: 'EC2_KEY')]) {
+            sh "scp -i $EC2_KEY ${appJar} ${ec2User}@${ec2Ip}:/home/ec2-user/myapp.jar"
+            sh "ssh -i $EC2_KEY ${ec2User}@${ec2Ip} 'nohup java -jar /home/ec2-user/myapp.jar > myapp.log 2>&1 &'"
+        }
+    }
 }
