@@ -30,8 +30,8 @@ node {
         withCredentials([file(credentialsId: 'my-ec2-key', variable: 'EC2_KEY')]) {
             sh '''
             chmod 600 $EC2_KEY
-            scp -o StrictHostKeyChecking=no -i $EC2_KEY target/my-app-1.0-SNAPSHOT.jar admin@18.218.217.151:/home/ec2-user/myapp.jar
-            ssh -o StrictHostKeyChecking=no -i $EC2_KEY admin@18.218.217.151 "nohup java -jar /home/ec2-user/myapp.jar > myapp.log 2>&1 &"
+            scp -o StrictHostKeyChecking=no -i $EC2_KEY target/my-app-1.0-SNAPSHOT.jar admin@18.218.217.151:/home/admin/myapp.jar
+            ssh -o StrictHostKeyChecking=no -i $EC2_KEY admin@18.218.217.151 "nohup java -jar /home/admin/myapp.jar > myapp.log 2>&1 &"
             '''
         }
 
